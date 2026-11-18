@@ -1,0 +1,7 @@
+{
+  "name": "NovaShopApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
