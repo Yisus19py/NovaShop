@@ -1,3 +1,4 @@
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>NovaShop - Productos</ion-title>
@@ -5,14 +6,55 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Productos</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <div class="ion-padding">
-    <h2>Bienvenido a NovaShop</h2>
-    <p>Explor los productos disponibles en nuestra tienda.</p>
+
+    <h2>Nuestros productos</h2>
+    <p>Explorá los productos disponibles en NovaShop.</p>
+
+    <!-- Mientras se cargan los productos -->
+    <div *ngIf="cargando" class="ion-text-center">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando productos...</p>
+    </div>
+
+    <!-- Si ocurre un error -->
+    <div *ngIf="mensajeError" class="ion-text-center">
+      <p>{{ mensajeError }}</p>
+    </div>
+
+    <!-- Mostrar los productos -->
+    <ion-grid *ngIf="!cargando && !mensajeError">
+      <ion-row>
+
+        <ion-col
+          size="12"
+          size-md="6"
+          size-lg="4"
+          *ngFor="let producto of productos">
+
+          <ion-card>
+
+            <ion-img [src]="producto.thumbnail"></ion-img>
+
+            <ion-card-header>
+              <ion-card-title>
+                {{ producto.title }}
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p>Categoría: {{ producto.category }}</p>
+              <h2>USD {{ producto.price }}</h2>
+            </ion-card-content>
+
+          </ion-card>
+
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
   </div>
+
 </ion-content>
