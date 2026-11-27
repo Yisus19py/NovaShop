@@ -12,6 +12,12 @@
     <h2>Nuestros productos</h2>
     <p>Explorá los productos disponibles en NovaShop.</p>
 
+    <ion-searchbar
+    placeholder="Buscar productos"
+    [(ngModel)]="textoBusqueda"
+    (ionInput)="filtrarProductos()">
+  </ion-searchbar>
+
     <!-- Mientras se cargan los productos -->
     <div *ngIf="cargando" class="ion-text-center">
       <ion-spinner name="crescent"></ion-spinner>
@@ -31,7 +37,7 @@
           size="12"
           size-md="6"
           size-lg="4"
-          *ngFor="let producto of productos">
+          *ngFor="let producto of productosFiltrados">
 
           <ion-card>
 
