@@ -16,7 +16,9 @@ import {
   IonCardContent,
   IonImg,
   IonSpinner,
-  IonSearchbar
+  IonSearchbar,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/angular';
 
 import { Productos } from '../services/productos';
@@ -41,7 +43,9 @@ import { Productos } from '../services/productos';
   IonCardContent,
   IonImg,
   IonSpinner,
-  IonSearchbar
+  IonSearchbar,
+  IonSelect,
+  IonSelectOption
 ],
 })
 export class Tab1Page implements OnInit {
@@ -52,6 +56,9 @@ export class Tab1Page implements OnInit {
 
   productosFiltrados:any[] = [];
   textoBusqueda = '';
+
+  categorias: string[] = [];
+  categoriaSeleccionada = 'todas';
 
   constructor(
     private productosService: Productos,
@@ -69,6 +76,11 @@ export class Tab1Page implements OnInit {
     this.productosService.obtenerProductos().subscribe({
       next: (respuesta) => {
         this.productos = respuesta.products;
+
+        this.categorias = [
+          ...new Set(this.productos.map(producto => producto.category))
+        ];
+
         this.filtrarProductos();
         this.cargando = false;
         this.cd.markForCheck();
@@ -77,15 +89,22 @@ export class Tab1Page implements OnInit {
         console.error('Error al cargar productos:', error);
         this.mensajeError = 'No se pudieron cargar los productos.';
         this.cargando = false;
-        this.cd.markForCheck();
+        this.cd.markForCheck(); 
       }
     });
-  }
-  filtrarProductos() {
+  } 
+filtrarProductos() {
   const texto = this.textoBusqueda.toLowerCase().trim();
 
-  this.productosFiltrados = this.productos.filter(producto =>
-    producto.title.toLowerCase().includes(texto)
-  );
+  this.productosFiltrados = this.productos.filter(producto => {
+    const coincideNombre = producto.title.toLowerCase().includes(texto);
+
+    const coincideCategoria =
+      this.categoriaSeleccionada === 'todas' ||
+      producto.category === this.categoriaSeleccionada;
+
+    return coincideNombre && coincideCategoria;
+  });
 }
+
 }

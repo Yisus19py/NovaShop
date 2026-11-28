@@ -18,6 +18,27 @@
     (ionInput)="filtrarProductos()">
   </ion-searchbar>
 
+  
+<ion-select
+  label="Categoría"
+  label-placement="stacked"
+  interface="popover"
+  [(ngModel)]="categoriaSeleccionada"
+  (ionChange)="filtrarProductos()">
+
+  <ion-select-option value="todas">
+    Todas las categorías
+  </ion-select-option>
+
+  <ion-select-option
+    *ngFor="let categoria of categorias"
+    [value]="categoria">
+    {{ categoria }}
+  </ion-select-option>
+
+</ion-select>
+
+
     <!-- Mientras se cargan los productos -->
     <div *ngIf="cargando" class="ion-text-center">
       <ion-spinner name="crescent"></ion-spinner>
